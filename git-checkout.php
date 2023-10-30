@@ -49,10 +49,11 @@ class GitCheckout
     chdir(GIT_CHECKOUT_DIR);
     if ($_POST['branch']) {
       $branch = escapeshellarg($_POST['branch']);
-      `git reset --hard && git fetch && git checkout $branch && git merge`;
+      `git reset --hard && git checkout $branch && git pull`;
     }
     $currentBranch = trim(`git symbolic-ref --short HEAD`);
     $latestCommit = `git log -1`;
+    `git fetch --prune`;
     $branches = `git branch -r`;
     $branches = explode("\n", $branches);
     $branches = array_map(function ($branch) {
